@@ -2,6 +2,8 @@
 
 A comprehensive web-based solution to help users locate nearby medical stores with required medicines in stock, and enable store owners to manage their inventory.
 
+![App Preview](https://via.placeholder.com/800x400?text=App+Preview)
+
 ## 🌟 Key Features
 
 ### 👨‍⚕️ For Patients/Users
@@ -50,23 +52,24 @@ A comprehensive web-based solution to help users locate nearby medical stores wi
 - **Accessibility**: Semantic HTML and ARIA labels
 
 ## 📂 Project Structure
-medicine_finder/
-├── app.py # Main application file
-├── config.py # Configuration settings
-├── requirements.txt # Dependencies
-├── static/ # Static files
-│ ├── css/
-│ ├── js/
-│ └── images/
-├── templates/ # HTML templates
-│ ├── admin/
-│ ├── auth/
-│ ├── store/
-│ ├── base.html
-│ └── [other pages]
-└── instance/
-└── medicine_app.db # Database file
-
+   ```
+   medicine_finder/
+   ├── app.py                # Main application file
+   ├── config.py             # Configuration settings
+   ├── requirements.txt      # Dependencies
+   ├── static/               # Static files
+   │   ├── css/              # Stylesheets
+   │   ├── js/               # JavaScript files
+   │   └── images/           # Image assets
+   ├── templates/            # HTML templates
+   │   ├── admin/            # Admin pages
+   │   ├── auth/             # Authentication pages
+   │   ├── store/            # Store management pages
+   │   ├── base.html         # Base template
+   │   └── [other pages]     # All other pages
+   └── instance/
+       └── medicine_app.db   # Database file
+   ```
 
 ## 🚀 Installation & Setup
 
@@ -117,5 +120,5 @@ We welcome contributions! Please follow these steps:
 ## ✉️ Contact
 
 For questions or support, please contact:
-**Project Lead**: Kaivalya Patil
-**GitHub**: @patilkaivalya
+- **Project Lead**: Kaivalya Patil
+- **GitHub**: @patilkaivalya
