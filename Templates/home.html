@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nearby Medicine Finder - Find Medications Instantly</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Find medicines available in local pharmacies near you. Save time during medical emergencies.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Ensure Static/styles.css exists and is correctly linked -->
+     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Your existing CSS styles */
+        :root {
+            --primary-color: #4a6fa5;   /* A calming blue */
+    --secondary-color: #166088; /* A deeper blue for accents */
+    --accent-color: #4fc3f7;    /* A brighter blue for highlights */
+    --light-color: #f8f9fa;    /* Light background */
+    --dark-color: #343a40;     /* Dark text/background for contrast */
+    --text-color: #333;        /* Default text color */
+    --card-bg: white;          /* Background for cards/containers */
+    --shadow-light: rgba(0,0,0,0.1); /* Light shadow for depth */
+    --shadow-dark: rgba(0,0,0,0.05); /* Slightly lighter shadow */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            background-color: #f8f9fc;
+            line-height: 1.6;
+        }
+
+
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                        url('https://images.unsplash.com/photo-1587854692152-cbe660dbde88?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1350&q=80') no-repeat center center;
+            background-size: cover;
+            color: white;
+            padding: 100px 20px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        /* Search Section */
+        .search-container {
+            max-width: 800px;
+            margin: -50px auto 50px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-card {
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+            background: white;
+        }
+
+        body.dark-mode .search-card {
+            background: var(--dark-card);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .search-input {
+            height: 50px;
+            font-size: 1.1rem;
+            border-radius: 8px 0 0 8px !important;
+        }
+
+        .search-btn {
+            height: 50px;
+            border-radius: 0 8px 8px 0 !important;
+            font-weight: 600;
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .search-btn:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        /* Results Section */
+        .result-card {
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+            border: none;
+            transition: transform 0.3s ease;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+        }
+
+        body.dark-mode .result-card {
+            background: var(--dark-card);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .medicine-name {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        body.dark-mode .medicine-name {
+            color: #6c9fff;
+        }
+
+        .store-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .info-icon {
+            color: var(--primary-color);
+            margin-right: 8px;
+            width: 20px;
+            text-align: center;
+        }
+
+        body.dark-mode .info-icon {
+            color: #6c9fff;
+        }
+
+        /* Features Section */
+        .feature-box {
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-10px);
+        }
+
+        body.dark-mode .feature-box {
+            background: var(--dark-card);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+                /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 80px 20px;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .search-container {
+                margin: -30px auto 30px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        /* Owner CTA */
+        .owner-cta {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 40px 0;
+        }
+
+footer {
+    background-color: var(--dark-color); /* Dark background for footer */
+    color: white; /* White text for contrast */
+    padding: 2rem 0;
+    margin-top: 3rem;
+    text-align: center; /* Center footer content */
+}
+        footer .social-icon {
+    color: white;
+    font-size: 1.5rem;
+    margin: 0 10px;
+    transition: transform 0.3s ease;
+}
+
+footer .social-icon:hover {
+    color: var(--accent-color);
+    transform: translateY(-3px);
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+footer a:hover {
+    color: rgba(255, 255, 255, 0.7);
+}
+    </style>
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="{{ url_for('home') }}">
+            <i class="fas fa-pills me-2"></i>Nearby Medicine Finder
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == url_for('home') %}active{% endif %}" href="{{ url_for('home') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == url_for('about') %}active{% endif %}" href="{{ url_for('about') }}">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == url_for('contact') %}active{% endif %}" href="{{ url_for('contact') }}">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == url_for('privacy') %}active{% endif %}" href="{{ url_for('privacy') }}">Privacy</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<div class="hero text-center">
+    <div class="container">
+        <h1 class="display-4 fw-bold">Find Medicines Near You</h1>
+        <p class="lead">Instantly locate medications at nearby pharmacies. Save time during emergencies.</p>
+        <div class="mt-4">
+            <a href="#search" class="btn btn-primary btn-lg px-4 me-2">
+                <i class="fas fa-search me-2"></i>Search Now
+            </a>
+            <a href="/login" class="btn btn-outline-light btn-lg px-4">
+                <i class="fas fa-store me-2"></i>Pharmacy Login
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="container mb-5">
+
+    <!-- Search Section -->
+    <div id="search" class="search-container">
+        <div class="search-card shadow-lg">
+            <h3 class="text-center mb-4"><i class="fas fa-pills me-2"></i>Medicine Search</h3>
+            <form method="POST" onsubmit="return attachLocation()">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control search-input"
+                           placeholder="Enter medicine name (e.g., Dolo 650, Azithromycin)" required>
+                    <button type="submit" class="btn search-btn">
+                        <i class="fas fa-search me-2"></i>Search
+                    </button>
+                </div>
+                <input type="hidden" name="latitude" id="user_lat">
+                <input type="hidden" name="longitude" id="user_lon">
+                <p class="text-muted mt-2 small text-center">
+                    <i class="fas fa-info-circle me-1"></i>We'll use your location to find nearby pharmacies
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Search Results -->
+    {% if results %}
+        <div class="fade-in">
+            <h3 class="mb-4"><i class="fas fa-list me-2"></i>Search Results</h3>
+            <div class="row">
+                {% for r in results %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card result-card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title medicine-name">
+                                    <i class="fas fa-pills me-2"></i>{{ r.medicine }}
+                                </h5>
+                                <div class="store-info mb-3">
+                                    <p class="store-name mb-1">
+                                        <i class="fas fa-store info-icon"></i>{{ r.store }}
+                                    </p>
+                                    <p class="mb-1">
+                                        <i class="fas fa-boxes info-icon"></i>Quantity: <strong>{{ r.quantity }}</strong>
+                                    </p>
+                                    {% if r.distance %}
+                                        <p class="mb-1">
+                                            <i class="fas fa-map-marker-alt info-icon"></i>{{ r.distance }} km away
+                                        </p>
+                                    {% endif %}
+                                </div>
+                                <div class="contact-info mt-3">
+                                    <a href="tel:{{ r.phone }}" class="btn btn-sm btn-outline-success me-2">
+                                        <i class="fas fa-phone me-1"></i> {{ r.phone }}
+                                    </a>
+                                    <a href="https://www.google.com/maps/dir/?api=1&destination={{ r.latitude }},{{ r.longitude }}"
+                                       target="_blank" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-directions me-1"></i> Directions
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% elif request.method == 'POST' %}
+        <div class="alert alert-warning text-center fade-in">
+            <i class="fas fa-exclamation-triangle me-2"></i>No matching medicine found in nearby pharmacies.
+        </div>
+    {% endif %}
+
+    <!-- Features Section -->
+    <div class="row mt-5 mb-5">
+        <div class="col-md-4 mb-4">
+            <div class="feature-box fade-in" style="animation-delay: 0.1s;">
+                <div class="feature-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h4 class="feature-title">Save Time</h4>
+                <p>No more running from store to store. Find medicine availability instantly.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="feature-box fade-in" style="animation-delay: 0.2s;">
+                <div class="feature-icon">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <h4 class="feature-title">Nearby Pharmacies</h4>
+                <p>Shows only pharmacies near your location, sorted by distance.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="feature-box fade-in" style="animation-delay: 0.3s;">
+                <div class="feature-icon">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <h4 class="feature-title">Emergency Help</h4>
+                <p>Critical during medical emergencies when every minute counts.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Owner CTA -->
+    <div class="owner-cta text-center fade-in">
+        <h3 ><i class="fas fa-store-alt me-2" ></i>Are you a pharmacy owner?</h3>
+        <p class="mb-4">Join our network to reach more customers and help your community</p>
+        <a href="/signup" class="btn btn-light btn-lg">
+            <i class="fas fa-user-plus me-2"></i>Register Your Pharmacy
+        </a>
+    </div>
+
+</div>
+
+<footer class="text-center">
+    <div class="container">
+        <div class="mb-4">
+            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <p class="mb-2">Nearby Medicine Finder - Making healthcare accessible to everyone</p>
+        <div class="mb-3">
+            <a href="{{ url_for('home') }}" class="text-white text-decoration-none me-3"><i class="fas fa-home me-1"></i> Home</a>
+            <a href="{{ url_for('about') }}" class="text-white text-decoration-none me-3"><i class="fas fa-info-circle me-1"></i> About</a>
+            <a href="{{ url_for('contact') }}" class="text-white text-decoration-none me-3"><i class="fas fa-envelope me-1"></i> Contact</a>
+            <a href="{{ url_for('privacy') }}" class="text-white text-decoration-none"><i class="fas fa-shield-alt me-1"></i> Privacy</a>
+        </div>
+        <p class="mb-0">&copy; 2025 Nearby Medicine Finder. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Enhanced attachLocation function
+    function attachLocation() {
+        if (navigator.geolocation) {
+            // Show loading state
+            const submitBtn = document.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Locating...';
+            submitBtn.disabled = true;
+
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    document.getElementById('user_lat').value = position.coords.latitude;
+                    document.getElementById('user_lon').value = position.coords.longitude;
+                    submitBtn.innerHTML = '<i class="fas fa-search me-2"></i> Searching...';
+                    document.querySelector('form').submit(); // This line submits the form
+                },
+                error => {
+                    submitBtn.innerHTML = originalBtnText;
+                    submitBtn.disabled = false;
+                    // Changed alert to a more user-friendly message, consider a custom modal in a real app
+                    console.error("Geolocation error:", error);
+                    alert("Please enable location access to find nearby pharmacies. Error: " + error.message);
+                },
+                { timeout: 10000 }
+            );
+            return false; // Prevent default form submission
+        } else {
+            alert("Geolocation is not supported by your browser. Please try a modern browser.");
+            return false;
+        }
+    }
+
+    // Smooth scroll for anchor links
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Highlight current page in navigation
+        const currentPage = location.pathname.split('/').pop() || 'home.html';
+        document.querySelectorAll('.nav-link').forEach(link => {
+            // Ensure the link's href matches the current page, handling cases like "/" for home
+            const linkHref = link.getAttribute('href');
+            if (linkHref === '/' && currentPage === 'home.html') {
+                link.classList.add('active');
+            } else if (linkHref.includes(currentPage)) {
+                link.classList.add('active');
+            }
+        });
+    });
+</script>
+</body>
+</html>

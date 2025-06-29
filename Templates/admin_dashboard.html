@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard - Nearby Medicine Finder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Link to your external styles.css -->
+    <style>
+        /* This style block remains for admin-specific overrides or additions */
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #2e59d9;
+            --accent-color: #f8f9fc;
+            --text-color: #5a5c69;
+            --dark-bg: #1a1a2e;
+            --dark-card: #16213e;
+            --dark-text: #e6e6e6;
+            --danger-color: #e74a3b;
+        }
+
+        body {
+            /* These might be overridden by styles.css if it's loaded after,
+               but good to keep specific admin page styles here. */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fc;
+            color: var(--text-color);
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        /* Header */
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Cards */
+        .section-card {
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        body.dark-mode .section-card {
+            background-color: var(--dark-card);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            background-color: rgba(78, 115, 223, 0.1);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-weight: 600;
+        }
+
+        body.dark-mode .card-header {
+            background-color: rgba(28, 40, 82, 0.5);
+            border-bottom-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Tables */
+        .data-table {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+        }
+
+        body.dark-mode .data-table {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .data-table th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        body.dark-mode .data-table th {
+            background-color: #2e59d9;
+        }
+
+        /* Buttons */
+        .btn-logout {
+            background-color: var(--danger-color);
+            border-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn-logout:hover {
+            background-color: #c5301c;
+            border-color: #c5301c;
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            border-color: var(--danger-color);
+        }
+
+        /* Toggle Button */
+        .toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .toggle-btn button {
+            border-radius: 50px;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        /* Stats Cards */
+        .stats-card {
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            color: white;
+            text-align: center;
+        }
+
+        .stats-card.owners {
+            background: linear-gradient(135deg, #4e73df, #2e59d9);
+        }
+
+        .stats-card.stores {
+            background: linear-gradient(135deg, #1cc88a, #17a673);
+        }
+
+        .stats-card.medicines {
+            background: linear-gradient(135deg, #f6c23e, #dda20a);
+        }
+
+        .stats-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .stats-card .count {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .dashboard-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .stats-card {
+                margin-bottom: 15px;
+            }
+        }
+
+        /* Ensure modal content is visible */
+        .modal-content {
+            background-color: var(--card-bg); /* Ensure a distinct background */
+            color: var(--text-color); /* Ensure text is visible on the modal */
+        }
+        .modal-header, .modal-footer {
+            border-color: rgba(0,0,0,0.1); /* Subtle borders */
+        }
+    </style>
+</head>
+<body>
+
+<!-- Dashboard Header -->
+<div class="dashboard-header">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h2><i class="fas fa-tachometer-alt me-2"></i> Admin Dashboard</h2>
+                <p class="mb-0">Manage system data and users</p>
+            </div>
+            <div>
+                <a href="/admin-logout" class="btn btn-logout">
+                    <i class="fas fa-sign-out-alt me-1"></i> Logout
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="container mb-5 fade-in">
+    <!-- Stats Overview -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="stats-card owners">
+                <i class="fas fa-users"></i>
+                <div class="count">{{ owners|length }}</div>
+                <div>Registered Owners</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stats-card stores">
+                <i class="fas fa-store"></i>
+                <div class="count">{{ stores|length }}</div>
+                <div>Pharmacy Stores</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stats-card medicines">
+                <i class="fas fa-pills"></i>
+                <div class="count">{{ medicines|length }}</div>
+                <div>Medicine Listings</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Owners Section -->
+    <div class="section-card card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h4 class="mb-0"><i class="fas fa-users me-2"></i> Owners Management</h4>
+            <span class="badge bg-primary">{{ owners|length }} owners</span>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive data-table">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Stores</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for o in owners %}
+                        <tr>
+                            <td>{{ o.id }}</td>
+                            <td>{{ o.name }}</td>
+                            <td>{{ o.email }}</td>
+                            <td>{{ o.stores|length }}</td>
+                            <td>
+                                <form method="POST" action="/delete-owner/{{ o.id }}" onsubmit="return confirm('Are you sure? This will permanently delete the owner and all their stores and medicines!')">
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        <i class="fas fa-trash me-1"></i> Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stores Section -->
+    <div class="section-card card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h4 class="mb-0"><i class="fas fa-store me-2"></i> Pharmacy Stores</h4>
+            <span class="badge bg-success">{{ stores|length }} stores</span>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive data-table">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Location</th>
+                            <th>Owner</th>
+                            <th>Medicines</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s in stores %}
+                        <tr>
+                            <td>{{ s.id }}</td>
+                            <td>{{ s.name }}</td>
+                            <td>{{ s.phone }}</td>
+                            <td>{{ s.location }}</td>
+                            <td>{{ s.owner_id }} ({{ s.owner.name }})</td>
+                            <td>{{ s.medicines|length }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Medicines Section -->
+    <div class="section-card card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h4 class="mb-0"><i class="fas fa-pills me-2"></i> Medicine Inventory</h4>
+            <span class="badge bg-warning text-dark">{{ medicines|length }} medicines</span>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive data-table">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Quantity</th>
+                            <th>Store</th>
+                            <th>Owner</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for m in medicines %}
+                        <tr>
+                            <td>{{ m.id }}</td>
+                            <td>{{ m.name }}</td>
+                            <td>{{ m.quantity }}</td>
+                            <td>{{ m.store_id }} ({{ m.store.name }})</td>
+                            <td>{{ m.store.owner_id }} ({{ m.store.owner.name }})</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Contact Messages Card -->
+<div class="card mt-4">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0"><i class="fas fa-envelope me-2"></i>Recent Contact Messages</h5>
+    </div>
+    <div class="card-body">
+        {% if contact_messages %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Subject</th>
+                            <th>Message</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for message in contact_messages %}
+                        <tr>
+                            <td>{{ message.name }}</td>
+                            <td><a href="mailto:{{ message.email }}">{{ message.email }}</a></td>
+                            <td>{{ message.subject }}</td>
+                            <td>{{ message.message }}</td>
+                            <td>{{ message.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td>
+                                <a href="{{ url_for('delete_message', message_id=message.id) }}"
+                                   class="btn btn-sm btn-danger"
+                                   onclick="return confirm('Are you sure you want to delete this message?')">
+                                    <i class="fas fa-trash"></i> Delete
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-muted">No contact messages yet.</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Message View Modal -->
+<div class="modal fade" id="messageModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Message Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>From:</strong> <span id="modal-name"></span> (<span id="modal-email"></span>)</p>
+                <p><strong>Date:</strong> <span id="modal-date"></span></p>
+                <p><strong>Subject:</strong> <span id="modal-subject"></span></p>
+                <hr>
+                <p id="modal-message" class="mt-3"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="#" id="modal-reply-btn" class="btn btn-primary">
+                    <i class="fas fa-reply me-1"></i> Reply
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Modal view functionality
+    document.querySelectorAll('.view-message').forEach(button => {
+        button.addEventListener('click', function() {
+            // Log to console to check if this function is triggered
+            console.log("View button clicked! Data:", this.dataset);
+
+            document.getElementById('modal-name').textContent = this.dataset.name;
+            document.getElementById('modal-email').textContent = this.dataset.email;
+            document.getElementById('modal-subject').textContent = this.dataset.subject;
+            document.getElementById('modal-message').textContent = this.dataset.message;
+            document.getElementById('modal-date').textContent = this.dataset.date;
+            document.getElementById('modal-reply-btn').href = `mailto:${this.dataset.email}?subject=RE: ${encodeURIComponent(this.dataset.subject)}`;
+        });
+    });
+</script>
+</body>
+</html>

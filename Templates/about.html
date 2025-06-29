@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Nearby Medicine Finder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="Static/styles.css">
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="{{ url_for('home') }}">
+            <i class="fas fa-pills me-2"></i>Nearby Medicine Finder
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == url_for('home') %}active{% endif %}" href="{{ url_for('home') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == url_for('about') %}active{% endif %}" href="{{ url_for('about') }}">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == url_for('contact') %}active{% endif %}" href="{{ url_for('contact') }}">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == url_for('privacy') %}active{% endif %}" href="{{ url_for('privacy') }}">Privacy</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    <!-- About Page Content -->
+    <div class="container my-5">
+        <div class="page-container">
+            <h1 class="mb-4"><i class="fas fa-info-circle me-2"></i>About Nearby Medicine Finder</h1>
+
+            <div class="row mb-5">
+                <div class="col-lg-6">
+                    <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Medicine Finder" class="img-fluid rounded shadow">
+                </div>
+                <div class="col-lg-6">
+                    <p class="lead">
+                        Nearby Medicine Finder is a smart web application designed to help users find the availability of medicines in nearby medical stores.
+                    </p>
+                    <p>
+                        Our platform uses advanced geolocation technology to show results within a 1 km range, making it a quick and efficient tool during emergencies when every minute counts.
+                    </p>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-4 mb-4">
+                    <div class="text-center p-4 h-100">
+                        <div class="feature-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h3>Local Search</h3>
+                        <p>Find medicines available in stores near your current location with our precise geolocation technology.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="text-center p-4 h-100">
+                        <div class="feature-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Real-time Data</h3>
+                        <p>Get up-to-date information on medicine availability to save time and avoid unnecessary trips.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="text-center p-4 h-100">
+                        <div class="feature-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>Community Focus</h3>
+                        <p>Designed with senior citizens and emergency situations in mind to make healthcare accessible.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="mt-5 mb-4">Our Mission</h2>
+            <p>
+                We aim to revolutionize how people access essential medicines by bridging the gap between medical store inventory and patient needs. Our mission is to assist patients, especially senior citizens and those in emergency situations, in locating life-saving medications without the stress of running from store to store.
+            </p>
+
+            <h2 class="mt-5 mb-4">The Developer</h2>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card developer-card p-4 mb-4">
+                        <div class="d-flex align-items-center">
+                            <img src="https://ui-avatars.com/api/?name=Kaivalya+Patil&background=4a6fa5&color=fff&size=100" alt="Kaivalya Patil" class="rounded-circle me-4" width="80">
+                            <div>
+                                <h3 class="mb-1">Kaivalya Patil</h3>
+                                <p class="text-muted mb-2">Founder & Developer</p>
+                                <p class="mb-0">Passionate about creating technology solutions that solve real-world problems and improve lives.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Footer -->
+<footer class="text-center">
+    <div class="container">
+        <div class="mb-4">
+            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <p class="mb-2">Nearby Medicine Finder - Making healthcare accessible to everyone</p>
+        <div class="mb-3">
+            <a href="{{ url_for('home') }}" class="text-white text-decoration-none me-3"><i class="fas fa-home me-1"></i> Home</a>
+            <a href="{{ url_for('about') }}" class="text-white text-decoration-none me-3"><i class="fas fa-info-circle me-1"></i> About</a>
+            <a href="{{ url_for('contact') }}" class="text-white text-decoration-none me-3"><i class="fas fa-envelope me-1"></i> Contact</a>
+            <a href="{{ url_for('privacy') }}" class="text-white text-decoration-none"><i class="fas fa-shield-alt me-1"></i> Privacy</a>
+        </div>
+        <p class="mb-0">&copy; 2025 Nearby Medicine Finder. All rights reserved.</p>
+    </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+        // Highlight current page in navigation
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentPage = location.pathname.split('/').pop() || 'home.html';
+        document.querySelectorAll('.nav-link').forEach(link => {
+            if (link.getAttribute('href') === currentPage) {
+                link.classList.add('active');
+            }
+        });
+    });
+    </script>
+</body>
+</html>

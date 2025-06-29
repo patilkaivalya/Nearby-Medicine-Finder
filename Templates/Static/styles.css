@@ -1,0 +1,164 @@
+/* Root Variables for Color Palette */
+:root {
+    --primary-color: #4a6fa5;   /* A calming blue */
+    --secondary-color: #166088; /* A deeper blue for accents */
+    --accent-color: #4fc3f7;    /* A brighter blue for highlights */
+    --light-color: #f8f9fa;    /* Light background */
+    --dark-color: #343a40;     /* Dark text/background for contrast */
+    --text-color: #333;        /* Default text color */
+    --card-bg: white;          /* Background for cards/containers */
+    --shadow-light: rgba(0,0,0,0.1); /* Light shadow for depth */
+    --shadow-dark: rgba(0,0,0,0.05); /* Slightly lighter shadow */
+}
+
+/* Base Body Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--light-color); /* Light background for visibility */
+    color: var(--text-color); /* Dark text for contrast against light background */
+    line-height: 1.6;
+    margin: 0; /* Remove default body margin */
+    padding: 0; /* Remove default body padding */
+}
+
+/* Navigation Bar Styles */
+.navbar {
+    background-color: var(--primary-color);
+    box-shadow: 0 2px 10px var(--shadow-light);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    color: white !important; /* Ensure brand name is white */
+}
+
+.nav-link {
+    color: rgba(255,255,255,0.85) !important;
+    font-weight: 500;
+    margin: 0 5px;
+    transition: all 0.3s ease; /* Added ease for smoother transition */
+}
+
+.nav-link:hover, .nav-link.active {
+    color: white !important;
+    transform: translateY(-2px);
+}
+
+/* Hero Section Styles */
+.hero-section {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 3rem 0;
+    margin-bottom: 2rem;
+    border-radius: 0 0 20px 20px;
+    text-align: center; /* Center content in hero */
+}
+
+/* General Page Container Styles */
+.page-container {
+    background: var(--card-bg); /* White background for page content */
+    border-radius: 10px;
+    box-shadow: 0 5px 15px var(--shadow-dark);
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Heading Styles */
+h1, h2, h3 {
+    color: var(--secondary-color); /* Deep blue for headings */
+    font-weight: 700;
+}
+
+/* Feature Box/Icon Styles */
+.feature-icon {
+    font-size: 2.5rem;
+    color: var(--accent-color); /* Bright blue for icons */
+    margin-bottom: 1rem;
+}
+
+/* Primary Button Styles */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white; /* Ensure text is white on primary buttons */
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+/* Footer Styles */
+footer {
+    background-color: var(--dark-color); /* Dark background for footer */
+    color: white; /* White text for contrast */
+    padding: 2rem 0;
+    margin-top: 3rem;
+    text-align: center; /* Center footer content */
+}
+
+footer .social-icon {
+    color: white;
+    font-size: 1.5rem;
+    margin: 0 10px;
+    transition: transform 0.3s ease;
+}
+
+footer .social-icon:hover {
+    color: var(--accent-color);
+    transform: translateY(-3px);
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+footer a:hover {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Specific Card/List Styles (if used in other templates) */
+.developer-card {
+    border-left: 4px solid var(--accent-color);
+    transition: all 0.3s ease;
+    background: var(--card-bg); /* Ensure card has a background */
+    box-shadow: 0 2px 8px var(--shadow-dark); /* Add shadow for definition */
+    padding: 1rem; /* Add some padding */
+    margin-bottom: 1rem; /* Space between cards */
+}
+
+.developer-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px var(--shadow-light);
+}
+
+.privacy-list li {
+    margin-bottom: 10px;
+    position: relative;
+    padding-left: 20px;
+}
+
+.privacy-list li:before {
+    content: "•";
+    color: var(--accent-color);
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+.contact-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    color: var(--text-color); /* Ensure contact text is visible */
+}
+
+.contact-icon {
+    font-size: 1.5rem;
+    color: var(--accent-color);
+    margin-right: 15px;
+    width: 30px;
+    text-align: center;
+}

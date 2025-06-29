@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | Nearby Medicine Finder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="Static/styles.css">
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="{{ url_for('home') }}">
+            <i class="fas fa-pills me-2"></i>Nearby Medicine Finder
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == url_for('home') %}active{% endif %}" href="{{ url_for('home') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == url_for('about') %}active{% endif %}" href="{{ url_for('about') }}">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == url_for('contact') %}active{% endif %}" href="{{ url_for('contact') }}">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == url_for('privacy') %}active{% endif %}" href="{{ url_for('privacy') }}">Privacy</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    <!-- Privacy Page Content -->
+    <div class="container my-5">
+        <div class="page-container">
+            <h1 class="mb-4"><i class="fas fa-shield-alt me-2"></i>Privacy Policy</h1>
+
+            <p class="lead">Your privacy is important to us. This policy explains how we collect, use, and protect your information.</p>
+
+            <h3 class="mt-4">Information We Collect</h3>
+            <ul class="privacy-list">
+                <li><strong>Location Data:</strong> We collect your approximate location to find nearby medical stores, but we don't store this information permanently.</li>
+                <li><strong>Search Queries:</strong> Medicine names you search for are used to provide relevant results.</li>
+                <li><strong>Device Information:</strong> Basic device data helps us optimize the app for different devices.</li>
+            </ul>
+
+            <h3 class="mt-4">How We Use Your Information</h3>
+            <ul class="privacy-list">
+                <li>To provide accurate search results for nearby medicine availability</li>
+                <li>To improve our services and user experience</li>
+                <li>To respond to your inquiries and provide support</li>
+                <li>For analytics to understand usage patterns (anonymous data)</li>
+            </ul>
+
+            <h3 class="mt-4">Data Security</h3>
+            <p>We implement appropriate security measures to protect against unauthorized access, alteration, or destruction of your data. However, no internet transmission is 100% secure.</p>
+
+            <h3 class="mt-4">Third-Party Services</h3>
+            <p>We may use third-party services (like mapping providers) that have their own privacy policies. We recommend reviewing these policies.</p>
+
+            <h3 class="mt-4">Changes to This Policy</h3>
+            <p>We may update this policy occasionally. We'll notify users of significant changes through our website or app.</p>
+
+            <h3 class="mt-4">Contact Us</h3>
+            <p>For privacy-related questions, contact us at <a href="mailto:privacy@nearbymedicinefinder.com">privacy@nearbymedicinefinder.com</a>.</p>
+
+            <p class="mt-4 text-muted"><small>Last updated: June 2025</small></p>
+        </div>
+    </div>
+
+<!-- Footer -->
+<footer class="text-center">
+    <div class="container">
+        <div class="mb-4">
+            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <p class="mb-2">Nearby Medicine Finder - Making healthcare accessible to everyone</p>
+        <div class="mb-3">
+            <a href="{{ url_for('home') }}" class="text-white text-decoration-none me-3"><i class="fas fa-home me-1"></i> Home</a>
+            <a href="{{ url_for('about') }}" class="text-white text-decoration-none me-3"><i class="fas fa-info-circle me-1"></i> About</a>
+            <a href="{{ url_for('contact') }}" class="text-white text-decoration-none me-3"><i class="fas fa-envelope me-1"></i> Contact</a>
+            <a href="{{ url_for('privacy') }}" class="text-white text-decoration-none"><i class="fas fa-shield-alt me-1"></i> Privacy</a>
+        </div>
+        <p class="mb-0">&copy; 2025 Nearby Medicine Finder. All rights reserved.</p>
+    </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+        // Highlight current page in navigation
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentPage = location.pathname.split('/').pop() || 'home.html';
+        document.querySelectorAll('.nav-link').forEach(link => {
+            if (link.getAttribute('href') === currentPage) {
+                link.classList.add('active');
+            }
+        });
+    });
+    </script>
+</body>
+</html>
