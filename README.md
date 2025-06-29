@@ -2,8 +2,6 @@
 
 A comprehensive web-based solution to help users locate nearby medical stores with required medicines in stock, and enable store owners to manage their inventory.
 
-![App Preview](https://via.placeholder.com/800x400?text=App+Preview)
-
 ## 🌟 Key Features
 
 ### 👨‍⚕️ For Patients/Users
